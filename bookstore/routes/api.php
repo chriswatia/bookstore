@@ -17,13 +17,21 @@ use App\Http\Controllers\API\BookLoanController;
 |
 */
 Route::prefix('v1')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::middleware('auth:api')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
-
+    //Protected Routes
+    // Admin routes
+    Route::group(['middleware' => ['IsAdmin', 'auth:api']], function () {
+        Route::post('/register', [AuthController::class, 'register']);
         Route::resource('books', BookController::class);
         Route::resource('book-loans', BookLoanController::class);
+    });
+
+    Route::middleware('auth:api')->group(function () {
+
+        //Public Protected Routes
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('books', [BookController::class, 'books.index']);
+        Route::get('book-loans', [BookLoanController::class,'book-loans.index']);
     });
 });

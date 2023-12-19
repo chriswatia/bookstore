@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,10 +26,13 @@ class AuthController extends Controller
 			return response()->json(['errors' => $validator->errors()], 422);
 		}
 
+        $role = Role::where('name', 'User')->first();
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role_id' => $role->id
         ]);
 
         $token = $user->createToken('BookStore')->accessToken;
