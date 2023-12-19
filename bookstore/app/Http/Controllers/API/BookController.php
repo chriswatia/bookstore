@@ -43,6 +43,7 @@ class BookController extends Controller
 			return response()->json(['errors' => $validator->errors()], 422);
 		}
 
+        //Create Book
         $book = Book::create([
             'name' => $request->name,
             'publisher' => $request->publisher,
@@ -66,6 +67,7 @@ class BookController extends Controller
             return response()->json(['error' => 'Book not found'], 404);
         }
 
+        //Update Book
         $book->update($request->all());
 
         return response()->json($book, 200);
