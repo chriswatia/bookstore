@@ -18,6 +18,13 @@ class Book extends Model
         'description',
         'pages',
         'image',
-        'added_by'
+        'added_by',
+        'status',
+        'book_loan_days',
     ];
+
+    public function isAvailable()
+    {
+        return $this->status === 'available';
+    }
 }

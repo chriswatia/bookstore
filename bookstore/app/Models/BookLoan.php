@@ -15,10 +15,21 @@ class BookLoan extends Model
         'loan_date',
         'due_date',
         'return_date',
+        'extended',
         'extension_date',
         'penalty_amount',
         'penalty_status',
         'status',
         'added_by'
     ];
+
+    public function canBeExtended()
+    {
+        return !$this->extended && now() <= $this->due_date;
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
 }

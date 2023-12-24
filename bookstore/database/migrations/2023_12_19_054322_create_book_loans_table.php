@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('extension_date')->nullable();
             $table->decimal('penalty_amount', 10, 2)->default(0);
             $table->boolean('penalty_status')->default(false);
-            $table->enum('status', ['pending', 'approved', 'returned'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'issued', 'returned'])->default('pending');
             $table->unsignedBigInteger('added_by');
             $table->timestamps();
 
