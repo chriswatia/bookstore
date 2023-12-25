@@ -56,7 +56,9 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $token = auth()->user()->createToken('BookStore')->accessToken;
-            return response()->json(['token' => $token], 200);
+            $user = Auth::user();
+            $user->role = Auth::user()->role->name;
+            return response()->json(['token' => $token, 'user' => $user], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
